@@ -7,7 +7,10 @@ import 'value_failure.dart';
 @immutable
 abstract class ValueObjects<T> {
   const ValueObjects();
+
   Either<ValueFailure<T>, T> get value;
+
+  bool isValid() => value.isRight();
 
   @override
   String toString() => 'ValueObjects(value: $value)';
