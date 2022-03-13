@@ -14,6 +14,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gr.dart"
     - "**/*.freezed.dart"
+    - "**/*.config.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the
