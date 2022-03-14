@@ -34,16 +34,34 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
             ),
           );
         },
-        registerWithEmailAndPasswordPressed: (e) {
-          _performActionOnAuthFacadeWithEmailAndPassword(
+        registerWithEmailAndPasswordPressed: (e) async {
+          final failureOrSuccess =
+              await _performActionOnAuthFacadeWithEmailAndPassword(
             emit,
             _authFacade.registerWithEmailAndPassword,
           );
+
+          emit(
+            state.copyWith(
+              isSubmitting: false,
+              showError: true,
+              authFailureOrSuccessOption: optionOf(failureOrSuccess),
+            ),
+          );
         },
-        signInWithEmailAndPasswordPressed: (e) {
-          _performActionOnAuthFacadeWithEmailAndPassword(
+        signInWithEmailAndPasswordPressed: (e) async {
+          final failureOrSuccess =
+              await _performActionOnAuthFacadeWithEmailAndPassword(
             emit,
             _authFacade.signInWithEmailAndPassword,
+          );
+
+          emit(
+            state.copyWith(
+              isSubmitting: false,
+              showError: true,
+              authFailureOrSuccessOption: optionOf(failureOrSuccess),
+            ),
           );
         },
         signInWithGooglePressed: (e) async {
@@ -65,7 +83,8 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     });
   }
 
-  void _performActionOnAuthFacadeWithEmailAndPassword(
+  Future<Either<AuthFailure, Unit>?>
+      _performActionOnAuthFacadeWithEmailAndPassword(
     Emitter<SignInFormState> emit,
     Future<Either<AuthFailure, Unit>> Function({
       required EmailAddress emailAddress,
@@ -91,13 +110,6 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
         password: state.password,
       );
     }
-
-    emit(
-      state.copyWith(
-        isSubmitting: false,
-        showError: true,
-        authFailureOrSuccessOption: optionOf(failureOrSuccess),
-      ),
-    );
+    return failureOrSuccess;
   }
 }
