@@ -16,8 +16,8 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   final IAuthFacade _authFacade;
 
   SignInFormBloc(this._authFacade) : super(SignInFormState.initial()) {
-    on<SignInFormEvent>((event, emit) {
-      event.map(
+    on<SignInFormEvent>((event, emit) async {
+      await event.map(
         emailChanged: (e) {
           emit(
             state.copyWith(
@@ -34,13 +34,13 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
             ),
           );
         },
-        registerWithEmailAndPasswordPressed: (e) async {
+        registerWithEmailAndPasswordPressed: (e) {
           _performActionOnAuthFacadeWithEmailAndPassword(
             emit,
             _authFacade.registerWithEmailAndPassword,
           );
         },
-        signInWithEmailAndPasswordPressed: (e) async {
+        signInWithEmailAndPasswordPressed: (e) {
           _performActionOnAuthFacadeWithEmailAndPassword(
             emit,
             _authFacade.signInWithEmailAndPassword,
@@ -85,6 +85,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
           authFailureOrSuccessOption: none(),
         ),
       );
+
       failureOrSuccess = await forwardCall(
         emailAddress: state.emailAddress,
         password: state.password,

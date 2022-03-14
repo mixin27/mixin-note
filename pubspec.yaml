@@ -21,6 +21,7 @@ dependencies:
   google_sign_in: ^5.2.4
   injectable: ^1.5.3
   get_it: ^7.2.0
+  another_flushbar: ^1.10.28
 
 dev_dependencies:
   flutter_test:

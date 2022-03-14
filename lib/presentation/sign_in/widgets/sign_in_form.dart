@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,10 +10,31 @@ class SignInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        state.authFailureOrSuccessOption.fold(
+          () {},
+          (either) => either.fold(
+            (failure) {
+              FlushbarHelper.createError(
+                message: failure.map(
+                  cancelledByUser: (_) => 'Cancelled',
+                  serverError: (_) => 'Server Error',
+                  emailAlreadyInUse: (_) => 'Email is already in use.',
+                  invalidEmailAndPassword: (_) => 'Invalid email and password.',
+                ),
+              ).show(context);
+            },
+            (_) {
+              // todo: Navigate
+            },
+          ),
+        );
+      },
       builder: (context, state) {
         return Form(
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: state.showError
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
           child: ListView(
             children: [
               const Text(
