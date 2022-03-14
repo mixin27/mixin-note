@@ -20,7 +20,7 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
     return right(input);
   } else {
     return left(
-      ValueFailure.invalidEmail(failedValue: input),
+      ValueFailure.shortPassword(failedValue: input),
     );
   }
 }
