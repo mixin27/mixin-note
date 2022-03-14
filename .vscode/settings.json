@@ -7,7 +7,7 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.gitkeep": false,
-    "**/*.freezed.dart": false,
+    "**/*.freezed.dart": true,
     "**/*.g.dart": true,
     "**/*.gr.dart": true
   },
