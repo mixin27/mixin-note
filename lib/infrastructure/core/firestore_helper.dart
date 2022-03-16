@@ -5,7 +5,7 @@ import '../../domain/core/errors.dart';
 import '../../injection.dart';
 
 extension FirebaseFirestoreX on FirebaseFirestore {
-  Future<DocumentReference> userDocument() async {
+  Future<DocumentReference<Map<String, dynamic>>> userDocument() async {
     final userOption = getIt<IAuthFacade>().getSignedInUser();
     final user = userOption.getOrElse(() => throw NotAuthenticatedError());
     return FirebaseFirestore.instance
