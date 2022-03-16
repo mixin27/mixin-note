@@ -115,7 +115,6 @@ class NoteRepository implements INoteRepository {
       final userDoc = await _firestore.userDocument();
       final noteId = note.id.getOrCrash();
 
-      // we already have predefined UniqueId !!!
       await userDoc.noteCollection.doc(noteId).delete();
       return right(unit);
     } on FirebaseException catch (e) {
